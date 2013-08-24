@@ -40,7 +40,7 @@ module Firmata
       @connected = false
       @async_events = []
 
-      trap_signals 'SIGHUP', 'SIGINT', 'SIGKILL', 'SIGTERM'
+      trap_signals 'INT', 'KILL', 'TERM'
     rescue LoadError
       puts "Please 'gem install hybridgroup-serialport' for serial port support."
     end
