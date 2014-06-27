@@ -24,9 +24,8 @@ module Firmata
     # port - a String port or an Object that responds to read and write.
     def initialize(port)
       if port.is_a?(String)
-        require 'serialport'
-        @serial_port = SerialPort.new(port, 57600, 8, 1, SerialPort::NONE)
-        @serial_port.read_timeout = 2
+        require 'rubyserial'
+        @serial_port = Serial.new(port, 57600, 8)
       else
         @serial_port = port
       end
@@ -289,14 +288,14 @@ module Firmata
     #
     # Returns nothing.
     def write(*commands)
-      serial_port.write_nonblock(commands.map(&:chr).join)
+      serial_port.write(commands.map(&:chr).join)
     end
 
     # Internal: Read data from the underlying serial port.
     #
     # Returns String data read for serial port.
     def read
-      return serial_port.read_nonblock(1024)
+      return serial_port.read(1024)
     rescue EOFError
     rescue Errno::EAGAIN
     end
