@@ -62,7 +62,7 @@ module Firmata
         catch(:initialized) do
           loop do
             query_report_version #unless @major_version.zero?
-            sleep 0.1
+            sleep 1
             read_and_process
           end
         end
@@ -241,6 +241,7 @@ module Firmata
       ret.push(END_SYSEX)
       write(*ret)
     end
+
     # Public: Set i2c config.
     #   I2C config
     # 0  START_SYSEX (0xF0) (MIDI System Exclusive)
@@ -296,8 +297,6 @@ module Firmata
     # Returns String data read for serial port.
     def read
       return serial_port.read(1024)
-    rescue EOFError
-    rescue Errno::EAGAIN
     end
 
     # Internal: Process a series of bytes.
