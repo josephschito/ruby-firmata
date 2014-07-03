@@ -40,8 +40,6 @@ module Firmata
       @async_events = []
 
       trap_signals 'INT', 'KILL', 'TERM'
-    rescue LoadError
-      puts "Please 'gem install hybridgroup-serialport' for serial port support."
     end
 
     # Public: Check if a connection to Arduino has been made.
