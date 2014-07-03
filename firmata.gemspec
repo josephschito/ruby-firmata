@@ -20,5 +20,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency("minitest")
 
   gem.add_runtime_dependency("event_emitter")
-  gem.add_runtime_dependency("rubyserial")
+  gem.add_runtime_dependency("rubyserial", "0.1.0")
 end
