@@ -1,5 +1,6 @@
 require 'stringio'
 require 'event_emitter'
+require 'rubyserial'
 
 module Firmata
   class Board
@@ -24,7 +25,6 @@ module Firmata
     # port - a String port or an Object that responds to read and write.
     def initialize(port)
       if port.is_a?(String)
-        require 'rubyserial'
         @serial_port = Serial.new(port, 57600, 8)
       else
         @serial_port = port
