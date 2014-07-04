@@ -1,5 +1,6 @@
 require 'stringio'
 require 'event_emitter'
+require 'rubyserial'
 
 module Firmata
   class Board
@@ -24,9 +25,7 @@ module Firmata
     # port - a String port or an Object that responds to read and write.
     def initialize(port)
       if port.is_a?(String)
-        require 'serialport'
-        @serial_port = SerialPort.new(port, 57600, 8, 1, SerialPort::NONE)
-        @serial_port.read_timeout = 2
+        @serial_port = Serial.new(port, 57600, 8)
       else
         @serial_port = port
       end
@@ -41,8 +40,6 @@ module Firmata
       @async_events = []
 
       trap_signals 'INT', 'KILL', 'TERM'
-    rescue LoadError
-      puts "Please 'gem install hybridgroup-serialport' for serial port support."
     end
 
     # Public: Check if a connection to Arduino has been made.
@@ -63,7 +60,7 @@ module Firmata
         catch(:initialized) do
           loop do
             query_report_version #unless @major_version.zero?
-            sleep 0.1
+            sleep 1
             read_and_process
           end
         end
@@ -242,6 +239,7 @@ module Firmata
       ret.push(END_SYSEX)
       write(*ret)
     end
+
     # Public: Set i2c config.
     #   I2C config
     # 0  START_SYSEX (0xF0) (MIDI System Exclusive)
@@ -289,16 +287,14 @@ module Firmata
     #
     # Returns nothing.
     def write(*commands)
-      serial_port.write_nonblock(commands.map(&:chr).join)
+      serial_port.write(commands.map(&:chr).join)
     end
 
     # Internal: Read data from the underlying serial port.
     #
     # Returns String data read for serial port.
     def read
-      return serial_port.read_nonblock(1024)
-    rescue EOFError
-    rescue Errno::EAGAIN
+      return serial_port.read(1024)
     end
 
     # Internal: Process a series of bytes.

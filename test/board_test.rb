@@ -16,7 +16,7 @@ module Firmata
         yield mock_port
       else
         expected = args.map(&:chr).join
-        mock_port.expect(:write_nonblock, 1, [expected])
+        mock_port.expect(:write, 1, [expected])
       end
 
       mock_port
@@ -131,7 +131,7 @@ module Firmata
 
     def test_toggling_pin_reporting
       mock_sp = mock_serial_port do |mock|
-        mock.expect(:write_nonblock, 2, [[Board::REPORT_DIGITAL | 13, 1].map(&:chr).join])
+        mock.expect(:write, 2, [[Board::REPORT_DIGITAL | 13, 1].map(&:chr).join])
       end
 
       board = Board.new(mock_sp)
@@ -139,7 +139,7 @@ module Firmata
       board.toggle_pin_reporting(13)
       mock_sp.verify
 
-      mock_sp.expect(:write_nonblock, 2, [[Board::REPORT_DIGITAL | 13, 0].map(&:chr).join])
+      mock_sp.expect(:write, 2, [[Board::REPORT_DIGITAL | 13, 0].map(&:chr).join])
       board.toggle_pin_reporting(13, 0)
       mock_sp.verify
 

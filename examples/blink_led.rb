@@ -4,7 +4,7 @@ require 'socket'
 
 #sp = 'COM3' # windows
 #sp = '/dev/ttyACM0' #linux
-sp = '/dev/tty.usbmodemfa131' #mac
+sp = '/dev/cu.usbmodem1451' #mac
 
 board = Firmata::Board.new(sp)
 

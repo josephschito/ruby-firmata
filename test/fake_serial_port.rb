@@ -39,7 +39,6 @@ module Firmata
       @buffer << val
       val.length
     end
-    alias_method :write_nonblock, :write
 
     def bytes
       bytes = StringIO.new(@buffer).bytes
