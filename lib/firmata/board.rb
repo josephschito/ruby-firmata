@@ -39,7 +39,7 @@ module Firmata
       @connected = false
       @async_events = []
 
-      trap_signals 'INT', 'KILL', 'TERM'
+      trap_signals 'INT', 'TERM'
     end
 
     # Public: Check if a connection to Arduino has been made.
