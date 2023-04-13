@@ -15,10 +15,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Firmata::VERSION
 
-  gem.add_development_dependency "rake", "~>10.1.0"
+  gem.add_development_dependency "rake", "~>13.0.6"
   gem.add_development_dependency "pry", "~>0.9.12.2"
   gem.add_development_dependency "minitest", "~>5.0.6"
 
-  gem.add_runtime_dependency "event_emitter", "~>0.2.5"
-  gem.add_runtime_dependency "rubyserial", "~>0.1.1"
+  gem.add_runtime_dependency "event_emitter", "~>0.2.6"
+  gem.add_runtime_dependency "rubyserial", "~>0.6.0"
 end
